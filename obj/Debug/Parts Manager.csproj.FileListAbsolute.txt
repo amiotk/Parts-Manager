@@ -1,0 +1,9 @@
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\Parts Manager\bin\Debug\Parts Manager.exe.config
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\Parts Manager.exe.config
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\Parts Manager.exe
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\Parts Manager.pdb
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.csprojResolveAssemblyReference.cache
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts_Manager.Properties.Resources.resources
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.csproj.GenerateResource.Cache
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.exe
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.pdb
