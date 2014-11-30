@@ -7,3 +7,5 @@ C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts_Manager.Pr
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.csproj.GenerateResource.Cache
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.exe
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.pdb
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts_Manager.MainForm.resources
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts_Manager.Settings.resources
