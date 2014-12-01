@@ -3,11 +3,14 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Linq;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
+using System.Data.SQLite.Linq;
 
 namespace PartsManager
 {
@@ -28,7 +31,7 @@ namespace PartsManager
 		private void settingsToolStripMenuItem_Click ( object sender, EventArgs e )
 		{
 			Settings settings = new Settings ();
-			settings.Show ();
+			settings.ShowDialog ();
 		}
 
 		private void reloadToolStripMenuItem_Click ( object sender, EventArgs e )
@@ -41,30 +44,70 @@ namespace PartsManager
 			
 			// Add founded parts to dataGridView
 			partsDataGridView.DataSource = Parts.OrderBy ( o => o.ID ).ToList ();
-			
-			// Add Info buttons
-			DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn ();
-			partsDataGridView.Columns.Add ( buttonColumn );
-			buttonColumn.Width = 50 ;
-			buttonColumn.Text = "More";
-			buttonColumn.UseColumnTextForButtonValue = true;
 
 			// Format grid view.
 			partsDataGridView.Columns[ 0 ].Width = ( partsDataGridView.Width / 10 ) * 1;
 			partsDataGridView.Columns[ 1 ].Width = ( partsDataGridView.Width / 10 ) * 3;
 			partsDataGridView.Columns[ 2 ].Width = ( partsDataGridView.Width / 10 ) * 3;
 			partsDataGridView.Columns[ 3 ].Width = ( partsDataGridView.Width / 10 ) * 1;
+			partsDataGridView.Columns[ 4 ].Visible = false;
+
+			// Enable details view. 
+			DetailsGroupBox.Enabled = true;
 		}
 
-		private void partsDataGridView_CellClick ( object sender, DataGridViewCellEventArgs e )
+		/// <summary>
+		/// Fills details about clicked part.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">Event arguments.</param>
+		private void dataGridView1_CellEnter ( object sender, DataGridViewCellEventArgs e )
 		{
 			PartNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 1 ].FormattedValue.ToString ();
 			PartNumberLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].FormattedValue.ToString ();
 			PackageNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 2 ].FormattedValue.ToString ();
 			QuantityTextBox.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 3 ].FormattedValue.ToString ();
-			DatasheetLink.Text = Path.GetFileName ( datasheetDirectory ( partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].Value.ToString () ) );
-		}
+			ModuleLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 4 ].FormattedValue.ToString ();
+			string directory = datasheetDirectory ( partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].Value.ToString () ); 
+			DatasheetLink.Text = Path.GetFileName ( directory );
+			DatasheetLink.Links[ 0 ].LinkData = directory;
+			DescriptionTextBox.Clear ();
 
+			/*var connection = new SQLiteConnection (	@Properties.Settings.Default.DatabasePath );
+			var context = new DataContext ( connection );
+
+			var stocks = context.GetTable<InStock> ();
+			foreach ( var stock in stocks )
+			{
+				DescriptionTextBox.Text = stock.Quantity.ToString ();
+			}*/
+
+
+			SQLiteConnection dbConnection = new SQLiteConnection (
+				"Data Source=" +
+				Properties.Settings.Default.DatabasePath +
+				";Version=3;"
+			);
+
+			dbConnection.Open ();
+			SQLiteDataReader reader = new SQLiteCommand (
+				"select * from DESCRIPTIONS where ID == " + PartNumberLabel.Text,
+				dbConnection
+			).ExecuteReader ();
+
+			while ( reader.Read () )
+			{
+				DescriptionTextBox.Text = reader[ "DESCRIPTION" ].ToString ();
+			}
+
+			dbConnection.Close ();
+		}
+		
+		/// <summary>
+		/// Closes the app.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">Event arguments.</param>
 		private void exitToolStripMenuItem_Click ( object sender, EventArgs e )
 		{
 			Application.Exit ();
@@ -78,11 +121,18 @@ namespace PartsManager
 		{
 			List<Part> parts = new List<Part> ();
 			ReadStates state = ReadStates.Name;
-			Part part = new Part ( "ID", "VAL", "PACKAGE", 0 );
+			Part part = new Part ( "ID", "VAL", "PACKAGE", 0, "MODULE" );
+			SQLiteConnection dbConnection = new SQLiteConnection (
+				"Data Source=" +
+				Properties.Settings.Default.DatabasePath +
+				";Version=3;"
+			);
 
+			dbConnection.Open ();
+			
 			try
 			{
-				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.LibraryDirectory, "*.lib", SearchOption.AllDirectories )
+				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.LibraryPath, "*.lib", SearchOption.AllDirectories )
 							from line in File.ReadLines ( file )
 							select new
 							{
@@ -120,7 +170,19 @@ namespace PartsManager
 								if ( f.Line.Contains ( "Part" ) )
 								{
 									part.ID = items[ 1 ].Trim ( new Char[] { '"' } );
-									parts.Add ( new Part ( part.ID, part.Value, part.Package, 0 ) );
+									part.Stock = 0;
+
+									SQLiteDataReader reader = new SQLiteCommand (
+										"select * from INSTOCK where ID == " + part.ID,
+										dbConnection
+									).ExecuteReader ();
+
+									while ( reader.Read () )
+									{
+										part.Stock = ( long )reader[ "QUANTITY" ];
+									}
+
+									parts.Add ( new Part ( part.ID, part.Value, part.Package, part.Stock, Path.GetFileName ( f.File ) ) );
 								}
 								break;
 						}
@@ -136,14 +198,21 @@ namespace PartsManager
 				Console.WriteLine ( PathEx.Message );
 			}
 
+			dbConnection.Close ();
+
 			return parts;
 		}
 
+		/// <summary>
+		/// Finds part's datasheet and returns path to it.
+		/// </summary>
+		/// <param name="PartID">ID of the part.</param>
+		/// <returns>Path to the datasheet.</returns>
 		private string datasheetDirectory ( string PartID )
 		{
 			try
 			{
-				var files = from file in Directory.EnumerateFiles(@Properties.Settings.Default.DatasheetDirectory, "*.pdf", SearchOption.AllDirectories)
+				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.DatasheetPath, "*.pdf", SearchOption.AllDirectories )
 							where file.Contains( PartID )
 							select new
 							{
@@ -153,7 +222,6 @@ namespace PartsManager
 				foreach (var f in files)
 				{
 					return f.File;
-					//Console.WriteLine("{0}\t{1}", f.File, f.Line);
 				}
 			}
 			catch (UnauthorizedAccessException UAEx)
@@ -165,6 +233,19 @@ namespace PartsManager
 				Console.WriteLine(PathEx.Message);
 			}
 			return string.Empty;
+		}
+
+		/// <summary>
+		/// Opens datasheet PDF.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">Event arguments.</param>
+		private void DatasheetLink_LinkClicked ( object sender, LinkLabelLinkClickedEventArgs e )
+		{
+			if ( e.Link.LinkData != null )
+			{
+				System.Diagnostics.Process.Start ( @e.Link.LinkData.ToString () );
+			}
 		}
 	}
 }

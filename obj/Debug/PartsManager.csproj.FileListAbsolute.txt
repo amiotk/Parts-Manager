@@ -8,3 +8,7 @@ C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\Parts Manager.ex
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\Parts Manager.pdb
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\Parts Manager.pdb
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\PartsManager.Properties.Resources.resources
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.dll
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.xml
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.Linq.xml

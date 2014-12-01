@@ -26,24 +26,36 @@ namespace PartsManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Adam\\Dropbox\\Embedded\\KiCAD Library")]
-        public string LibraryDirectory {
+        public string LibraryPath {
             get {
-                return ((string)(this["LibraryDirectory"]));
+                return ((string)(this["LibraryPath"]));
             }
             set {
-                this["LibraryDirectory"] = value;
+                this["LibraryPath"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Adam\\Dropbox\\Embedded\\Projects\\HMS\\TSI\\Parts")]
-        public string DatasheetDirectory {
+        public string DatasheetPath {
             get {
-                return ((string)(this["DatasheetDirectory"]));
+                return ((string)(this["DatasheetPath"]));
             }
             set {
-                this["DatasheetDirectory"] = value;
+                this["DatasheetPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DatabasePath {
+            get {
+                return ((string)(this["DatabasePath"]));
+            }
+            set {
+                this["DatabasePath"] = value;
             }
         }
     }

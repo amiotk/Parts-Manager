@@ -2,11 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PartsManager.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LibraryDirectory" Type="System.String" Scope="User">
+    <Setting Name="LibraryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\Adam\Dropbox\Embedded\KiCAD Library</Value>
     </Setting>
-    <Setting Name="DatasheetDirectory" Type="System.String" Scope="User">
+    <Setting Name="DatasheetPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\Adam\Dropbox\Embedded\Projects\HMS\TSI\Parts</Value>
+    </Setting>
+    <Setting Name="DatabasePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

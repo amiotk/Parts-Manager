@@ -31,7 +31,12 @@ namespace PartsManager
 		/// <summary>
 		/// Number of elements in stock.
 		/// </summary>
-		private uint fieldStock;
+		private long fieldStock;
+
+		/// <summary>
+		/// Library file when component exist.
+		/// </summary>
+		private string fieldModule;
 
 		/// <summary>
 		/// Event fired when any property of component change.
@@ -45,12 +50,13 @@ namespace PartsManager
 		/// <param name="Value">Value of new component.</param>
 		/// <param name="Package">Package of new component.</param>
 		/// <param name="Stock">Quantity of elements.</param>
-		public Part ( string ID, string Value, string Package, uint Stock )
+		public Part ( string ID, string Value, string Package, long Stock, string Module )
 		{
 			fieldID = ID;
 			fieldValue = Value;
 			fieldPackage = Package;
 			fieldStock = Stock;
+			fieldModule = Module;
 		}
 
 		/// <summary>
@@ -95,13 +101,26 @@ namespace PartsManager
 		/// <summary>
 		/// Magazine stock.
 		/// </summary>
-		public uint Stock
+		public long Stock
 		{
 			get { return fieldStock; }
 			set
 			{
 				fieldStock = value;
 				this.NotifyPropertyChanged ( "Info" );
+			}
+		}
+
+		/// <summary>
+		/// Gets/Sets the Module.
+		/// </summary>
+		public string Module
+		{
+			get { return fieldModule; }
+			set
+			{
+				fieldModule = value;
+				this.NotifyPropertyChanged ( "Package" );
 			}
 		}
 

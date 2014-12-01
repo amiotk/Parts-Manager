@@ -38,21 +38,21 @@
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.partsDataGridView = new System.Windows.Forms.DataGridView();
 			this.DetailsGroupBox = new System.Windows.Forms.GroupBox();
+			this.DescriptionTextBox = new System.Windows.Forms.TextBox();
+			this.QuantityTextBox = new System.Windows.Forms.TextBox();
+			this.DatasheetLink = new System.Windows.Forms.LinkLabel();
+			this.ModuleLabel = new System.Windows.Forms.Label();
+			this.PackageNameLabel = new System.Windows.Forms.Label();
+			this.PartNumberLabel = new System.Windows.Forms.Label();
+			this.PartNameLabel = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.SaveButton = new System.Windows.Forms.Button();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.SaveButton = new System.Windows.Forms.Button();
-			this.label7 = new System.Windows.Forms.Label();
-			this.PartNameLabel = new System.Windows.Forms.Label();
-			this.PartNumberLabel = new System.Windows.Forms.Label();
-			this.PackageNameLabel = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.DatasheetLink = new System.Windows.Forms.LinkLabel();
-			this.QuantityTextBox = new System.Windows.Forms.TextBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.partsDataGridView)).BeginInit();
 			this.DetailsGroupBox.SuspendLayout();
@@ -132,21 +132,23 @@
 			this.partsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.partsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.partsDataGridView.Location = new System.Drawing.Point(13, 28);
+			this.partsDataGridView.MultiSelect = false;
 			this.partsDataGridView.Name = "partsDataGridView";
 			this.partsDataGridView.ReadOnly = true;
 			this.partsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.partsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.partsDataGridView.Size = new System.Drawing.Size(593, 401);
 			this.partsDataGridView.TabIndex = 1;
-			this.partsDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.partsDataGridView_CellClick);
+			this.partsDataGridView.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
 			// 
 			// DetailsGroupBox
 			// 
 			this.DetailsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.DetailsGroupBox.Controls.Add(this.textBox1);
+			this.DetailsGroupBox.Controls.Add(this.DescriptionTextBox);
 			this.DetailsGroupBox.Controls.Add(this.QuantityTextBox);
 			this.DetailsGroupBox.Controls.Add(this.DatasheetLink);
-			this.DetailsGroupBox.Controls.Add(this.label8);
+			this.DetailsGroupBox.Controls.Add(this.ModuleLabel);
 			this.DetailsGroupBox.Controls.Add(this.PackageNameLabel);
 			this.DetailsGroupBox.Controls.Add(this.PartNumberLabel);
 			this.DetailsGroupBox.Controls.Add(this.PartNameLabel);
@@ -158,6 +160,7 @@
 			this.DetailsGroupBox.Controls.Add(this.label3);
 			this.DetailsGroupBox.Controls.Add(this.label2);
 			this.DetailsGroupBox.Controls.Add(this.label1);
+			this.DetailsGroupBox.Enabled = false;
 			this.DetailsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.DetailsGroupBox.Location = new System.Drawing.Point(612, 28);
 			this.DetailsGroupBox.Name = "DetailsGroupBox";
@@ -165,6 +168,113 @@
 			this.DetailsGroupBox.TabIndex = 2;
 			this.DetailsGroupBox.TabStop = false;
 			this.DetailsGroupBox.Text = "Details";
+			// 
+			// DescriptionTextBox
+			// 
+			this.DescriptionTextBox.Location = new System.Drawing.Point(10, 192);
+			this.DescriptionTextBox.Multiline = true;
+			this.DescriptionTextBox.Name = "DescriptionTextBox";
+			this.DescriptionTextBox.Size = new System.Drawing.Size(284, 63);
+			this.DescriptionTextBox.TabIndex = 14;
+			// 
+			// QuantityTextBox
+			// 
+			this.QuantityTextBox.Location = new System.Drawing.Point(83, 142);
+			this.QuantityTextBox.Name = "QuantityTextBox";
+			this.QuantityTextBox.Size = new System.Drawing.Size(70, 21);
+			this.QuantityTextBox.TabIndex = 13;
+			// 
+			// DatasheetLink
+			// 
+			this.DatasheetLink.AutoSize = true;
+			this.DatasheetLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.DatasheetLink.Location = new System.Drawing.Point(80, 95);
+			this.DatasheetLink.Name = "DatasheetLink";
+			this.DatasheetLink.Size = new System.Drawing.Size(0, 15);
+			this.DatasheetLink.TabIndex = 12;
+			this.DatasheetLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DatasheetLink_LinkClicked);
+			// 
+			// ModuleLabel
+			// 
+			this.ModuleLabel.AutoSize = true;
+			this.ModuleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ModuleLabel.Location = new System.Drawing.Point(80, 120);
+			this.ModuleLabel.Name = "ModuleLabel";
+			this.ModuleLabel.Size = new System.Drawing.Size(0, 15);
+			this.ModuleLabel.TabIndex = 11;
+			// 
+			// PackageNameLabel
+			// 
+			this.PackageNameLabel.AutoSize = true;
+			this.PackageNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.PackageNameLabel.Location = new System.Drawing.Point(80, 70);
+			this.PackageNameLabel.Name = "PackageNameLabel";
+			this.PackageNameLabel.Size = new System.Drawing.Size(0, 15);
+			this.PackageNameLabel.TabIndex = 10;
+			// 
+			// PartNumberLabel
+			// 
+			this.PartNumberLabel.AutoSize = true;
+			this.PartNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.PartNumberLabel.Location = new System.Drawing.Point(80, 45);
+			this.PartNumberLabel.Name = "PartNumberLabel";
+			this.PartNumberLabel.Size = new System.Drawing.Size(0, 15);
+			this.PartNumberLabel.TabIndex = 9;
+			// 
+			// PartNameLabel
+			// 
+			this.PartNameLabel.AutoSize = true;
+			this.PartNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.PartNameLabel.Location = new System.Drawing.Point(80, 20);
+			this.PartNameLabel.Name = "PartNameLabel";
+			this.PartNameLabel.Size = new System.Drawing.Size(0, 15);
+			this.PartNameLabel.TabIndex = 8;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(7, 95);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(63, 15);
+			this.label7.TabIndex = 7;
+			this.label7.Text = "Datasheet";
+			// 
+			// SaveButton
+			// 
+			this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.SaveButton.Location = new System.Drawing.Point(219, 372);
+			this.SaveButton.Name = "SaveButton";
+			this.SaveButton.Size = new System.Drawing.Size(75, 23);
+			this.SaveButton.TabIndex = 6;
+			this.SaveButton.Text = "Save";
+			this.SaveButton.UseVisualStyleBackColor = true;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(7, 145);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(48, 15);
+			this.label6.TabIndex = 5;
+			this.label6.Text = "In stock";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(7, 120);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(49, 15);
+			this.label5.TabIndex = 4;
+			this.label5.Text = "Module";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(7, 173);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(69, 15);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "Description";
 			// 
 			// label3
 			// 
@@ -193,117 +303,6 @@
 			this.label1.Size = new System.Drawing.Size(41, 15);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(7, 173);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(69, 15);
-			this.label4.TabIndex = 3;
-			this.label4.Text = "Description";
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(7, 120);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(49, 15);
-			this.label5.TabIndex = 4;
-			this.label5.Text = "Module";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(7, 145);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(51, 15);
-			this.label6.TabIndex = 5;
-			this.label6.Text = "Quantity";
-			// 
-			// SaveButton
-			// 
-			this.SaveButton.Location = new System.Drawing.Point(219, 372);
-			this.SaveButton.Name = "SaveButton";
-			this.SaveButton.Size = new System.Drawing.Size(75, 23);
-			this.SaveButton.TabIndex = 6;
-			this.SaveButton.Text = "Save";
-			this.SaveButton.UseVisualStyleBackColor = true;
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(7, 95);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(63, 15);
-			this.label7.TabIndex = 7;
-			this.label7.Text = "Datasheet";
-			// 
-			// PartNameLabel
-			// 
-			this.PartNameLabel.AutoSize = true;
-			this.PartNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PartNameLabel.Location = new System.Drawing.Point(80, 20);
-			this.PartNameLabel.Name = "PartNameLabel";
-			this.PartNameLabel.Size = new System.Drawing.Size(45, 15);
-			this.PartNameLabel.TabIndex = 8;
-			this.PartNameLabel.Text = "Name";
-			// 
-			// PartNumberLabel
-			// 
-			this.PartNumberLabel.AutoSize = true;
-			this.PartNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PartNumberLabel.Location = new System.Drawing.Point(80, 45);
-			this.PartNumberLabel.Name = "PartNumberLabel";
-			this.PartNumberLabel.Size = new System.Drawing.Size(58, 15);
-			this.PartNumberLabel.TabIndex = 9;
-			this.PartNumberLabel.Text = "Number";
-			// 
-			// PackageNameLabel
-			// 
-			this.PackageNameLabel.AutoSize = true;
-			this.PackageNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.PackageNameLabel.Location = new System.Drawing.Point(80, 70);
-			this.PackageNameLabel.Name = "PackageNameLabel";
-			this.PackageNameLabel.Size = new System.Drawing.Size(62, 15);
-			this.PackageNameLabel.TabIndex = 10;
-			this.PackageNameLabel.Text = "Package";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label8.Location = new System.Drawing.Point(80, 120);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(55, 15);
-			this.label8.TabIndex = 11;
-			this.label8.Text = "Module";
-			// 
-			// DatasheetLink
-			// 
-			this.DatasheetLink.AutoSize = true;
-			this.DatasheetLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.DatasheetLink.Location = new System.Drawing.Point(80, 95);
-			this.DatasheetLink.Name = "DatasheetLink";
-			this.DatasheetLink.Size = new System.Drawing.Size(72, 15);
-			this.DatasheetLink.TabIndex = 12;
-			this.DatasheetLink.TabStop = true;
-			this.DatasheetLink.Text = "Datasheet";
-			// 
-			// QuantityTextBox
-			// 
-			this.QuantityTextBox.Location = new System.Drawing.Point(83, 145);
-			this.QuantityTextBox.Name = "QuantityTextBox";
-			this.QuantityTextBox.Size = new System.Drawing.Size(70, 21);
-			this.QuantityTextBox.TabIndex = 13;
-			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(10, 192);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(284, 63);
-			this.textBox1.TabIndex = 14;
 			// 
 			// MainForm
 			// 
@@ -350,8 +349,8 @@
 		private System.Windows.Forms.Label PartNumberLabel;
 		private System.Windows.Forms.Label PackageNameLabel;
 		private System.Windows.Forms.LinkLabel DatasheetLink;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label ModuleLabel;
+		private System.Windows.Forms.TextBox DescriptionTextBox;
 		private System.Windows.Forms.TextBox QuantityTextBox;
 	}
 }
