@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source Files\DescriptionsTable.cs" />
-    <Compile Include="Source Files\InStock.cs" />
+    <Compile Include="Source Files\Components.cs" />
     <Compile Include="Source Files\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

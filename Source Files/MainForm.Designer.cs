@@ -39,7 +39,7 @@
 			this.partsDataGridView = new System.Windows.Forms.DataGridView();
 			this.DetailsGroupBox = new System.Windows.Forms.GroupBox();
 			this.DescriptionTextBox = new System.Windows.Forms.TextBox();
-			this.QuantityTextBox = new System.Windows.Forms.TextBox();
+			this.StockTextBox = new System.Windows.Forms.TextBox();
 			this.DatasheetLink = new System.Windows.Forms.LinkLabel();
 			this.ModuleLabel = new System.Windows.Forms.Label();
 			this.PackageNameLabel = new System.Windows.Forms.Label();
@@ -146,7 +146,7 @@
 			this.DetailsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.DetailsGroupBox.Controls.Add(this.DescriptionTextBox);
-			this.DetailsGroupBox.Controls.Add(this.QuantityTextBox);
+			this.DetailsGroupBox.Controls.Add(this.StockTextBox);
 			this.DetailsGroupBox.Controls.Add(this.DatasheetLink);
 			this.DetailsGroupBox.Controls.Add(this.ModuleLabel);
 			this.DetailsGroupBox.Controls.Add(this.PackageNameLabel);
@@ -177,12 +177,12 @@
 			this.DescriptionTextBox.Size = new System.Drawing.Size(284, 63);
 			this.DescriptionTextBox.TabIndex = 14;
 			// 
-			// QuantityTextBox
+			// StockTextBox
 			// 
-			this.QuantityTextBox.Location = new System.Drawing.Point(83, 142);
-			this.QuantityTextBox.Name = "QuantityTextBox";
-			this.QuantityTextBox.Size = new System.Drawing.Size(70, 21);
-			this.QuantityTextBox.TabIndex = 13;
+			this.StockTextBox.Location = new System.Drawing.Point(83, 142);
+			this.StockTextBox.Name = "StockTextBox";
+			this.StockTextBox.Size = new System.Drawing.Size(70, 21);
+			this.StockTextBox.TabIndex = 13;
 			// 
 			// DatasheetLink
 			// 
@@ -248,6 +248,7 @@
 			this.SaveButton.TabIndex = 6;
 			this.SaveButton.Text = "Save";
 			this.SaveButton.UseVisualStyleBackColor = true;
+			this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
 			// 
 			// label6
 			// 
@@ -351,6 +352,6 @@
 		private System.Windows.Forms.LinkLabel DatasheetLink;
 		private System.Windows.Forms.Label ModuleLabel;
 		private System.Windows.Forms.TextBox DescriptionTextBox;
-		private System.Windows.Forms.TextBox QuantityTextBox;
+		private System.Windows.Forms.TextBox StockTextBox;
 	}
 }

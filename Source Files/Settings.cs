@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Data.SQLite.Linq;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
 
 namespace PartsManager.Source_Files
 {
@@ -64,28 +66,12 @@ namespace PartsManager.Source_Files
 				dbConnection.Open ();
 
 				new SQLiteCommand (
-					"create table INSTOCK (ID varchar(20), QUANTITY UNSIGNED BIG INT)",
-					dbConnection
-				).ExecuteNonQuery ();
-
-				new SQLiteCommand (
-					"create table DESCRIPTIONS (ID varchar(20), DESCRIPTION varchar(250))",
-					dbConnection
-				).ExecuteNonQuery ();
-
-				new SQLiteCommand (
-					"insert into INSTOCK (ID, QUANTITY) values ('1000', 1234)",
-					dbConnection
-				).ExecuteNonQuery ();
-
-				new SQLiteCommand (
-					"insert into DESCRIPTIONS (ID, DESCRIPTION) values ('1000', 'Test new 7956!')",
+					"create table COMPONENTS (ID varchar(20) PRIMARY KEY, STOCK UNSIGNED BIG INT, DESCRIPTION varchar(50))",
 					dbConnection
 				).ExecuteNonQuery ();
 
 				dbConnection.Close ();
 			}
-
 		}
 
 		private void DatasheetPathChangeButton_Click ( object sender, EventArgs e )

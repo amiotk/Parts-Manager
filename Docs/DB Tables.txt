@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+COMPONENTS
+string(20)	ID	PK	Part field from KiCAD library
+long		STOCK		Quantity in magazine
+string(250)	DESCRIPTION	User notes
+----------------------------------------------------------------
+URL
+long		ID	PK	Autoincremented
+string(20)	PARTID	FK 	PK from COMPONENTS table
+string(30)	MPART		Manufacturer part number
+string(250)	URL
+----------------------------------------------------------------
+

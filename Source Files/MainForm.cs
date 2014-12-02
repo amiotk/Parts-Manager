@@ -66,26 +66,26 @@ namespace PartsManager.Source_Files
 			PartNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 1 ].FormattedValue.ToString ();
 			PartNumberLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].FormattedValue.ToString ();
 			PackageNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 2 ].FormattedValue.ToString ();
-			QuantityTextBox.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 3 ].FormattedValue.ToString ();
+			StockTextBox.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 3 ].FormattedValue.ToString ();
 			ModuleLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 4 ].FormattedValue.ToString ();
 			string directory = datasheetDirectory ( partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].Value.ToString () ); 
 			DatasheetLink.Text = Path.GetFileName ( directory );
 			DatasheetLink.Links[ 0 ].LinkData = directory;
 			DescriptionTextBox.Clear ();
 
-			var context = new DataContext ( 
-				new SQLiteConnection ( 
-					@"Data Source=" + Properties.Settings.Default.DatabasePath 
-				) 
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
 			);
 
-			var descs = from desc in context.GetTable<DescriptionsTable> ()
-						 where desc.ID == PartNumberLabel.Text
-						 select desc;
+			var parts = from part in context.GetTable<Components> ()
+						where part.ID == PartNumberLabel.Text
+						select part;
 
-			foreach ( var desc in descs )
+			foreach ( var part in parts )
 			{
-				DescriptionTextBox.Text = desc.Description;
+				DescriptionTextBox.Text = part.Description;
 			}
 		}
 		
@@ -157,13 +157,13 @@ namespace PartsManager.Source_Files
 									part.ID = items[ 1 ].Trim ( new Char[] { '"' } );
 									part.Stock = 0;
 
-									var stocks = from stock in context.GetTable<InStock> ()
-												 where stock.ID == part.ID
-												 select stock;
+									var dbParts = from dbPart in context.GetTable<Components> ()
+												  where dbPart.ID == part.ID
+												  select dbPart;
 
-									foreach ( var stock in stocks )
+									foreach ( var dbPart in dbParts )
 									{
-										part.Stock = stock.Quantity;
+										part.Stock = dbPart.Stock;
 									}
 
 									parts.Add ( new Part ( part.ID, part.Value, part.Package, part.Stock, Path.GetFileName ( f.File ) ) );
@@ -228,6 +228,49 @@ namespace PartsManager.Source_Files
 			{
 				System.Diagnostics.Process.Start ( @e.Link.LinkData.ToString () );
 			}
+		}
+
+		private void SaveButton_Click ( object sender, EventArgs e )
+		{
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
+			);
+
+			Table<Components> components = context.GetTable<Components> ();
+
+			// Check whether part is already in database or not.
+			// If part exist then update data, otherwise insert new entity.
+			if ( components.Any ( x => x.ID == PartNumberLabel.Text ) )
+			{
+				var parts = from part in context.GetTable<Components> ()
+							where part.ID == PartNumberLabel.Text
+							select part;
+
+				foreach ( var part in parts )
+				{
+					part.Stock = Convert.ToInt64 ( StockTextBox.Text );
+					part.Description = DescriptionTextBox.Text;
+				}
+			}
+			else
+			{
+				Components part = new Components
+				{
+					ID = PartNumberLabel.Text,
+					Stock = Convert.ToInt64 ( StockTextBox.Text ),
+					Description = DescriptionTextBox.Text
+				};
+				components.InsertOnSubmit ( part );
+			}
+
+			// Save changes in database.
+			context.SubmitChanges ();
+
+			// Update the dataGridView.
+			partsDataGridView.Rows[ partsDataGridView.CurrentCell.RowIndex ].Cells[ 3 ].Value = StockTextBox.Text;
+			
 		}
 	}
 }
