@@ -12,3 +12,17 @@ C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLi
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.xml
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\bin\Debug\System.Data.SQLite.Linq.xml
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\Parts Manager.exe.config
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\Parts Manager.exe
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\Parts Manager.pdb
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\Parts Manager.exe
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\Parts Manager.pdb
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\System.Data.SQLite.dll
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\System.Data.SQLite.xml
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\bin\Debug\System.Data.SQLite.Linq.xml
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.csprojResolveAssemblyReference.cache
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.MainForm.resources
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.Settings.resources
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.Properties.Resources.resources
+C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.csproj.GenerateResource.Cache
