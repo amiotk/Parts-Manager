@@ -10,13 +10,14 @@ using System.Data.SQLite.Linq;
 
 namespace PartsManager.Source_Files
 {
-	[Table ( Name = "INSTOCK" )]
-	class InStock
+	[Table ( Name = "DESCRIPTIONS" )]
+	class DescriptionsTable
 	{
 		[Column ( Name = "ID" )]
 		public string ID { get; set; }
 
-		[Column ( Name = "Quantity" )]
-		public long Quantity { get; set; }
+		[Column ( Name = "DESCRIPTION" )]
+		public string Description { get; set; }
 	}
+
 }

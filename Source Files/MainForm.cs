@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Data.SQLite.Linq;
 
-namespace PartsManager
+namespace PartsManager.Source_Files
 {
 	public partial class MainForm : Form
 	{
@@ -73,34 +73,20 @@ namespace PartsManager
 			DatasheetLink.Links[ 0 ].LinkData = directory;
 			DescriptionTextBox.Clear ();
 
-			/*var connection = new SQLiteConnection (	@Properties.Settings.Default.DatabasePath );
-			var context = new DataContext ( connection );
-
-			var stocks = context.GetTable<InStock> ();
-			foreach ( var stock in stocks )
-			{
-				DescriptionTextBox.Text = stock.Quantity.ToString ();
-			}*/
-
-
-			SQLiteConnection dbConnection = new SQLiteConnection (
-				"Data Source=" +
-				Properties.Settings.Default.DatabasePath +
-				";Version=3;"
+			var context = new DataContext ( 
+				new SQLiteConnection ( 
+					@"Data Source=" + Properties.Settings.Default.DatabasePath 
+				) 
 			);
 
-			dbConnection.Open ();
-			SQLiteDataReader reader = new SQLiteCommand (
-				"select * from DESCRIPTIONS where ID == " + PartNumberLabel.Text,
-				dbConnection
-			).ExecuteReader ();
+			var descs = from desc in context.GetTable<DescriptionsTable> ()
+						 where desc.ID == PartNumberLabel.Text
+						 select desc;
 
-			while ( reader.Read () )
+			foreach ( var desc in descs )
 			{
-				DescriptionTextBox.Text = reader[ "DESCRIPTION" ].ToString ();
+				DescriptionTextBox.Text = desc.Description;
 			}
-
-			dbConnection.Close ();
 		}
 		
 		/// <summary>
@@ -122,14 +108,13 @@ namespace PartsManager
 			List<Part> parts = new List<Part> ();
 			ReadStates state = ReadStates.Name;
 			Part part = new Part ( "ID", "VAL", "PACKAGE", 0, "MODULE" );
-			SQLiteConnection dbConnection = new SQLiteConnection (
-				"Data Source=" +
-				Properties.Settings.Default.DatabasePath +
-				";Version=3;"
-			);
-
-			dbConnection.Open ();
 			
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
+			);
+						
 			try
 			{
 				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.LibraryPath, "*.lib", SearchOption.AllDirectories )
@@ -172,14 +157,13 @@ namespace PartsManager
 									part.ID = items[ 1 ].Trim ( new Char[] { '"' } );
 									part.Stock = 0;
 
-									SQLiteDataReader reader = new SQLiteCommand (
-										"select * from INSTOCK where ID == " + part.ID,
-										dbConnection
-									).ExecuteReader ();
+									var stocks = from stock in context.GetTable<InStock> ()
+												 where stock.ID == part.ID
+												 select stock;
 
-									while ( reader.Read () )
+									foreach ( var stock in stocks )
 									{
-										part.Stock = ( long )reader[ "QUANTITY" ];
+										part.Stock = stock.Quantity;
 									}
 
 									parts.Add ( new Part ( part.ID, part.Value, part.Package, part.Stock, Path.GetFileName ( f.File ) ) );
@@ -197,9 +181,7 @@ namespace PartsManager
 			{
 				Console.WriteLine ( PathEx.Message );
 			}
-
-			dbConnection.Close ();
-
+			
 			return parts;
 		}
 

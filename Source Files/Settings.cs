@@ -10,14 +10,10 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Data.SQLite.Linq;
 
-namespace PartsManager
+namespace PartsManager.Source_Files
 {
 	public partial class Settings : Form
 	{
-		private string fieldLibraryDir;
-		private string fieldDatasheetDir;
-		private string fieldDatabaseFile;
-
 		public Settings ()
 		{
 			InitializeComponent ();

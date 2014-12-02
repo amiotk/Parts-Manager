@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PartsManager
+namespace PartsManager.Source_Files
 {
 	/// <summary>
 	/// Class of KiCAD element entity.

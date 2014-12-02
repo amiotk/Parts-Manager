@@ -1,4 +1,4 @@
-﻿namespace PartsManager
+﻿namespace PartsManager.Source_Files
 {
 	partial class MainForm
 	{
