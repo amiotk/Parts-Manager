@@ -11,7 +11,7 @@ namespace PartsManager.Source_Files
 	/// <summary>
 	/// Class of KiCAD element entity.
 	/// </summary>
-	class Part : INotifyPropertyChanged
+	class Part_t : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// ID of the component.
@@ -50,7 +50,7 @@ namespace PartsManager.Source_Files
 		/// <param name="Value">Value of new component.</param>
 		/// <param name="Package">Package of new component.</param>
 		/// <param name="Stock">Quantity of elements.</param>
-		public Part ( string ID, string Value, string Package, long Stock, string Module )
+		public Part_t ( string ID, string Value, string Package, long Stock, string Module )
 		{
 			fieldID = ID;
 			fieldValue = Value;

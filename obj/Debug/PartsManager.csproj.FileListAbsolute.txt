@@ -25,3 +25,4 @@ C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsMana
 C:\Users\Adam.RFLOGIC\Desktop\Bin\Personal\Parts Manager\App\obj\Debug\PartsManager.Source_Files.Settings.resources
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\PartsManager.Source_Files.MainForm.resources
 C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\PartsManager.Source_Files.Settings.resources
+C:\Users\Adam\Dropbox\Embedded\Projects\Parts Manager\obj\Debug\PartsManager.Source_Files.UrlEdit.resources

@@ -70,7 +70,30 @@ namespace PartsManager.Source_Files
 					dbConnection
 				).ExecuteNonQuery ();
 
+				new SQLiteCommand (
+					"create table LINKS ( ID INTEGER PRIMARY KEY, MPART varchar(30), PARTID varchar(20), URL varchar(250), PROVIDER varchar(20))",
+					dbConnection
+				).ExecuteNonQuery ();
+
 				dbConnection.Close ();
+
+				var context = new DataContext (
+					new SQLiteConnection (
+						@"Data Source=" + Properties.Settings.Default.DatabasePath
+					)
+				);
+
+				Table<Link_t> links = context.GetTable<Link_t> ();
+
+				Link_t link = new Link_t
+				{
+					PartID = "1000",
+					Mpart = "aws1q2",
+					Provider = "Farnell",
+					Url = "www.farnell.com"
+				};
+				links.InsertOnSubmit ( link );
+				context.SubmitChanges ();
 			}
 		}
 

@@ -40,7 +40,7 @@ namespace PartsManager.Source_Files
 			partsDataGridView.Columns.Clear ();
 
 			// Find all library's elements.
-			List<Part> Parts = librariesParse ();
+			List<Part_t> Parts = librariesParse ();
 			
 			// Add founded parts to dataGridView
 			partsDataGridView.DataSource = Parts.OrderBy ( o => o.ID ).ToList ();
@@ -63,6 +63,7 @@ namespace PartsManager.Source_Files
 		/// <param name="e">Event arguments.</param>
 		private void dataGridView1_CellEnter ( object sender, DataGridViewCellEventArgs e )
 		{
+			// Update details view controls.
 			PartNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 1 ].FormattedValue.ToString ();
 			PartNumberLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].FormattedValue.ToString ();
 			PackageNameLabel.Text = partsDataGridView.Rows[ e.RowIndex ].Cells[ 2 ].FormattedValue.ToString ();
@@ -71,6 +72,8 @@ namespace PartsManager.Source_Files
 			string directory = datasheetDirectory ( partsDataGridView.Rows[ e.RowIndex ].Cells[ 0 ].Value.ToString () ); 
 			DatasheetLink.Text = Path.GetFileName ( directory );
 			DatasheetLink.Links[ 0 ].LinkData = directory;
+			
+			// Update Description box using data from database.
 			DescriptionTextBox.Clear ();
 
 			var context = new DataContext (
@@ -87,6 +90,38 @@ namespace PartsManager.Source_Files
 			{
 				DescriptionTextBox.Text = part.Description;
 			}
+
+			// Fill URL combo box.
+			UrlComboBox.DataSource = null;
+
+			var urls = from url in context.GetTable<Link_t> ()
+					   where url.PartID == PartNumberLabel.Text
+					   select url;
+
+			if ( urls.Any ( x => x.PartID == PartNumberLabel.Text ) )
+			{
+				Dictionary<string, string> comboboxSource = new Dictionary<string, string> ();
+
+				foreach ( var url in urls )
+				{
+					comboboxSource.Add ( url.Url, url.Provider + " (" + url.Mpart + ")" );
+				}
+
+				UrlComboBox.DataSource = new BindingSource ( comboboxSource, null );
+				UrlComboBox.DisplayMember = "Value";
+				UrlComboBox.ValueMember = "Key";
+
+				GoUrlButton.Enabled = true;
+				EditUrlButton.Enabled = true;
+				DeleteUrlButton.Enabled = true;
+			}
+			else
+			{
+				GoUrlButton.Enabled = false;
+				EditUrlButton.Enabled = false;
+				DeleteUrlButton.Enabled = false;
+			}
+
 		}
 		
 		/// <summary>
@@ -103,11 +138,11 @@ namespace PartsManager.Source_Files
 		/// Scans Library directory and parses files to extract parts.
 		/// </summary>
 		/// <returns>List of founded parts.</returns>
-		private List<Part> librariesParse ()
+		private List<Part_t> librariesParse ()
 		{
-			List<Part> parts = new List<Part> ();
+			List<Part_t> parts = new List<Part_t> ();
 			ReadStates state = ReadStates.Name;
-			Part part = new Part ( "ID", "VAL", "PACKAGE", 0, "MODULE" );
+			Part_t part = new Part_t ( "ID", "VAL", "PACKAGE", 0, "MODULE" );
 			
 			var context = new DataContext (
 				new SQLiteConnection (
@@ -166,7 +201,7 @@ namespace PartsManager.Source_Files
 										part.Stock = dbPart.Stock;
 									}
 
-									parts.Add ( new Part ( part.ID, part.Value, part.Package, part.Stock, Path.GetFileName ( f.File ) ) );
+									parts.Add ( new Part_t ( part.ID, part.Value, part.Package, part.Stock, Path.GetFileName ( f.File ) ) );
 								}
 								break;
 						}
@@ -230,6 +265,11 @@ namespace PartsManager.Source_Files
 			}
 		}
 
+		/// <summary>
+		/// Saves data in database.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void SaveButton_Click ( object sender, EventArgs e )
 		{
 			var context = new DataContext (
@@ -271,6 +311,18 @@ namespace PartsManager.Source_Files
 			// Update the dataGridView.
 			partsDataGridView.Rows[ partsDataGridView.CurrentCell.RowIndex ].Cells[ 3 ].Value = StockTextBox.Text;
 			
+		}
+
+		private void GoUrlButton_Click ( object sender, EventArgs e )
+		{
+			string value = ( ( KeyValuePair<string, string> )UrlComboBox.SelectedItem ).Key;
+			System.Diagnostics.Process.Start ( value );
+		}
+
+		private void AddUrlButton_Click ( object sender, EventArgs e )
+		{
+			UrlEdit urlForm = new UrlEdit ( PartNumberLabel.Text );
+			urlForm.ShowDialog ();
 		}
 	}
 }

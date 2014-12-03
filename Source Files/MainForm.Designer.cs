@@ -53,6 +53,12 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.UrlComboBox = new System.Windows.Forms.ComboBox();
+			this.AddUrlButton = new System.Windows.Forms.Button();
+			this.EditUrlButton = new System.Windows.Forms.Button();
+			this.DeleteUrlButton = new System.Windows.Forms.Button();
+			this.GoUrlButton = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.partsDataGridView)).BeginInit();
 			this.DetailsGroupBox.SuspendLayout();
@@ -145,6 +151,12 @@
 			// 
 			this.DetailsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.DetailsGroupBox.Controls.Add(this.GoUrlButton);
+			this.DetailsGroupBox.Controls.Add(this.DeleteUrlButton);
+			this.DetailsGroupBox.Controls.Add(this.EditUrlButton);
+			this.DetailsGroupBox.Controls.Add(this.AddUrlButton);
+			this.DetailsGroupBox.Controls.Add(this.UrlComboBox);
+			this.DetailsGroupBox.Controls.Add(this.label8);
 			this.DetailsGroupBox.Controls.Add(this.DescriptionTextBox);
 			this.DetailsGroupBox.Controls.Add(this.StockTextBox);
 			this.DetailsGroupBox.Controls.Add(this.DatasheetLink);
@@ -174,7 +186,7 @@
 			this.DescriptionTextBox.Location = new System.Drawing.Point(10, 192);
 			this.DescriptionTextBox.Multiline = true;
 			this.DescriptionTextBox.Name = "DescriptionTextBox";
-			this.DescriptionTextBox.Size = new System.Drawing.Size(284, 63);
+			this.DescriptionTextBox.Size = new System.Drawing.Size(284, 80);
 			this.DescriptionTextBox.TabIndex = 14;
 			// 
 			// StockTextBox
@@ -242,11 +254,11 @@
 			// SaveButton
 			// 
 			this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.SaveButton.Location = new System.Drawing.Point(219, 372);
+			this.SaveButton.Location = new System.Drawing.Point(10, 372);
 			this.SaveButton.Name = "SaveButton";
-			this.SaveButton.Size = new System.Drawing.Size(75, 23);
+			this.SaveButton.Size = new System.Drawing.Size(284, 23);
 			this.SaveButton.TabIndex = 6;
-			this.SaveButton.Text = "Save";
+			this.SaveButton.Text = "Save Details";
 			this.SaveButton.UseVisualStyleBackColor = true;
 			this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
 			// 
@@ -305,6 +317,61 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name";
 			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(10, 280);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(38, 15);
+			this.label8.TabIndex = 15;
+			this.label8.Text = "URLs";
+			// 
+			// UrlComboBox
+			// 
+			this.UrlComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.UrlComboBox.Location = new System.Drawing.Point(10, 300);
+			this.UrlComboBox.Name = "UrlComboBox";
+			this.UrlComboBox.Size = new System.Drawing.Size(243, 23);
+			this.UrlComboBox.TabIndex = 16;
+			// 
+			// AddUrlButton
+			// 
+			this.AddUrlButton.Location = new System.Drawing.Point(10, 330);
+			this.AddUrlButton.Name = "AddUrlButton";
+			this.AddUrlButton.Size = new System.Drawing.Size(90, 23);
+			this.AddUrlButton.TabIndex = 17;
+			this.AddUrlButton.Text = "Add";
+			this.AddUrlButton.UseVisualStyleBackColor = true;
+			this.AddUrlButton.Click += new System.EventHandler(this.AddUrlButton_Click);
+			// 
+			// EditUrlButton
+			// 
+			this.EditUrlButton.Location = new System.Drawing.Point(108, 330);
+			this.EditUrlButton.Name = "EditUrlButton";
+			this.EditUrlButton.Size = new System.Drawing.Size(90, 23);
+			this.EditUrlButton.TabIndex = 18;
+			this.EditUrlButton.Text = "Edit";
+			this.EditUrlButton.UseVisualStyleBackColor = true;
+			// 
+			// DeleteUrlButton
+			// 
+			this.DeleteUrlButton.Location = new System.Drawing.Point(204, 330);
+			this.DeleteUrlButton.Name = "DeleteUrlButton";
+			this.DeleteUrlButton.Size = new System.Drawing.Size(90, 23);
+			this.DeleteUrlButton.TabIndex = 19;
+			this.DeleteUrlButton.Text = "Delete";
+			this.DeleteUrlButton.UseVisualStyleBackColor = true;
+			// 
+			// GoUrlButton
+			// 
+			this.GoUrlButton.Location = new System.Drawing.Point(259, 300);
+			this.GoUrlButton.Name = "GoUrlButton";
+			this.GoUrlButton.Size = new System.Drawing.Size(35, 23);
+			this.GoUrlButton.TabIndex = 20;
+			this.GoUrlButton.Text = "Go";
+			this.GoUrlButton.UseVisualStyleBackColor = true;
+			this.GoUrlButton.Click += new System.EventHandler(this.GoUrlButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,5 +420,11 @@
 		private System.Windows.Forms.Label ModuleLabel;
 		private System.Windows.Forms.TextBox DescriptionTextBox;
 		private System.Windows.Forms.TextBox StockTextBox;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.ComboBox UrlComboBox;
+		private System.Windows.Forms.Button GoUrlButton;
+		private System.Windows.Forms.Button DeleteUrlButton;
+		private System.Windows.Forms.Button EditUrlButton;
+		private System.Windows.Forms.Button AddUrlButton;
 	}
 }
