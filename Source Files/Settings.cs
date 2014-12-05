@@ -16,21 +16,19 @@ namespace PartsManager.Source_Files
 {
 	public partial class Settings : Form
 	{
+		/// <summary>
+		/// Class default constructor.
+		/// </summary>
 		public Settings ()
 		{
 			InitializeComponent ();
 		}
 
-		private void button1_Click ( object sender, EventArgs e )
-		{
-			LibraryPathTextBox.Text = PartsManager.Properties.Settings.Default.LibraryPath;
-		}
-
-		private void UpdateButton_Click ( object sender, EventArgs e )
-		{
-			
-		}
-
+		/// <summary>
+		/// Opens folder select dialog box and saves selected path as a path to KiCAD library.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void LibraryPathChangeButton_Click ( object sender, EventArgs e )
 		{
 			folderBrowserDialog.ShowDialog ();
@@ -40,11 +38,22 @@ namespace PartsManager.Source_Files
 			}
 		}
 
+		/// <summary>
+		/// Closes settings window without saving any changes.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void CancelButton_Click ( object sender, EventArgs e )
 		{
 			this.Close ();
 		}
 
+		/// <summary>
+		/// Creates new database file in directory selected by user.
+		/// Creates whole database structure (tables) without inserting any data.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void NewDataBaseButton_Click ( object sender, EventArgs e )
 		{
 			saveFileDialog.Filter = "SQLite files (*.sqlite)|*.sqlite";
@@ -76,27 +85,14 @@ namespace PartsManager.Source_Files
 				).ExecuteNonQuery ();
 
 				dbConnection.Close ();
-
-				var context = new DataContext (
-					new SQLiteConnection (
-						@"Data Source=" + Properties.Settings.Default.DatabasePath
-					)
-				);
-
-				Table<Link_t> links = context.GetTable<Link_t> ();
-
-				Link_t link = new Link_t
-				{
-					PartID = "1000",
-					Mpart = "aws1q2",
-					Provider = "Farnell",
-					Url = "www.farnell.com"
-				};
-				links.InsertOnSubmit ( link );
-				context.SubmitChanges ();
 			}
 		}
 
+		/// <summary>
+		/// Opens folder select dialog box and saves selected directory path as datasheets path.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void DatasheetPathChangeButton_Click ( object sender, EventArgs e )
 		{
 			folderBrowserDialog.ShowDialog ();
@@ -106,6 +102,11 @@ namespace PartsManager.Source_Files
 			}
 		}
 
+		/// <summary>
+		/// Opens file select dialog box and saves selected path as database path.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void DataBaseFileChangeButton_Click ( object sender, EventArgs e )
 		{
 			openFileDialog.Filter = "SQLite files (*.sqlite)|*.sqlite";
@@ -116,6 +117,11 @@ namespace PartsManager.Source_Files
 			}
 		}
 
+		/// <summary>
+		/// Saves settings, closes form and returns to main window.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void OkButton_Click ( object sender, EventArgs e )
 		{
 			Properties.Settings.Default.LibraryPath = LibraryPathTextBox.Text;

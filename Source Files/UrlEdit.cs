@@ -18,7 +18,12 @@ namespace PartsManager.Source_Files
 	{
 		private string PartID;
 		private bool Edit;
+		private Link_t Link;
 
+		/// <summary>
+		/// Class default constructor.
+		/// </summary>
+		/// <param name="Part">Part ID</param>
 		public UrlEdit ( string Part )
 		{
 			InitializeComponent ();
@@ -26,24 +31,40 @@ namespace PartsManager.Source_Files
 			this.PartID = Part;
 		}
 
-		/*public UrlEdit ( Part_t Part, Link_t Link )
+		/// <summary>
+		/// Extended constructor. Used for creating form for edit URL rather than creating new one.
+		/// </summary>
+		/// <param name="Part">Part ID</param>
+		/// <param name="Link">Object containing data to initialise form fields.</param>
+		public UrlEdit ( string Part, Link_t Link )
 		{
 			InitializeComponent ();
 			
 			this.MPartTextBox.Text = Link.Mpart;
 			this.MPartTextBox.Enabled = false;
 			this.ProviderTextBox.Text = Link.Provider;
-			this.UrlTextBox.Name = Link.Url;
+			this.UrlTextBox.Text = Link.Url;
 
-			this.Part = Part;
+			this.PartID = Part;
 			this.Edit = true;
-		}*/
+			this.Link = Link;
+		}
 
+		/// <summary>
+		/// Closes form without saving changes.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void CancelButton_Click ( object sender, EventArgs e )
 		{
 			this.Close ();
 		}
 
+		/// <summary>
+		/// Saves data and closes form.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void OkButton_Click ( object sender, EventArgs e )
 		{
 
@@ -59,7 +80,15 @@ namespace PartsManager.Source_Files
 			// Check whether we're inserting or updating database.
 			if ( Edit )
 			{
+				var linksSet = from link in context.GetTable<Link_t> ()
+							   where link.ID == Link.ID
+							   select link;
 
+				foreach ( var link in linksSet )
+				{
+					link.Provider = ProviderTextBox.Text;
+					link.Url = UrlTextBox.Text;
+				}
 			}
 			else
 			{

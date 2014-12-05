@@ -16,11 +16,17 @@ namespace PartsManager.Source_Files
 {
 	public partial class MainForm : Form
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public MainForm ()
 		{
 			InitializeComponent ();
 		}
 
+		/// <summary>
+		/// States of KiCAD library file parser.
+		/// </summary>
 		private enum ReadStates
 		{
 			Name,
@@ -28,12 +34,22 @@ namespace PartsManager.Source_Files
 			ID
 		}
 
+		/// <summary>
+		/// Opens Setting window.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void settingsToolStripMenuItem_Click ( object sender, EventArgs e )
 		{
 			Settings settings = new Settings ();
 			settings.ShowDialog ();
 		}
 
+		/// <summary>
+		/// Rescans Library directory and update parts DataGridView.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void reloadToolStripMenuItem_Click ( object sender, EventArgs e )
 		{
 			// Clear previous data just in case when reload is clicked twice.
@@ -59,8 +75,8 @@ namespace PartsManager.Source_Files
 		/// <summary>
 		/// Fills details about clicked part.
 		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">Event arguments.</param>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
 		private void dataGridView1_CellEnter ( object sender, DataGridViewCellEventArgs e )
 		{
 			// Update details view controls.
@@ -93,6 +109,168 @@ namespace PartsManager.Source_Files
 
 			// Fill URL combo box.
 			UrlComboBox.DataSource = null;
+			UrlData_Update ();
+		}
+		
+		/// <summary>
+		/// Closes the app.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void exitToolStripMenuItem_Click ( object sender, EventArgs e )
+		{
+			Application.Exit ();
+		}
+
+		/// <summary>
+		/// Opens datasheet PDF.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void DatasheetLink_LinkClicked ( object sender, LinkLabelLinkClickedEventArgs e )
+		{
+			if ( e.Link.LinkData != null )
+			{
+				System.Diagnostics.Process.Start ( @e.Link.LinkData.ToString () );
+			}
+		}
+
+		/// <summary>
+		/// Saves data in database.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void SaveButton_Click ( object sender, EventArgs e )
+		{
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
+			);
+
+			Table<Components> components = context.GetTable<Components> ();
+
+			// Check whether part is already in database or not.
+			// If part exist then update data, otherwise insert new entity.
+			if ( components.Any ( x => x.ID == PartNumberLabel.Text ) )
+			{
+				var parts = from part in context.GetTable<Components> ()
+							where part.ID == PartNumberLabel.Text
+							select part;
+
+				foreach ( var part in parts )
+				{
+					part.Stock = Convert.ToInt64 ( StockTextBox.Text );
+					part.Description = DescriptionTextBox.Text;
+				}
+			}
+			else
+			{
+				Components part = new Components
+				{
+					ID = PartNumberLabel.Text,
+					Stock = Convert.ToInt64 ( StockTextBox.Text ),
+					Description = DescriptionTextBox.Text
+				};
+				components.InsertOnSubmit ( part );
+			}
+
+			// Save changes in database.
+			context.SubmitChanges ();
+
+			// Update the dataGridView.
+			partsDataGridView.Rows[ partsDataGridView.CurrentCell.RowIndex ].Cells[ 3 ].Value = StockTextBox.Text;
+			
+		}
+
+		/// <summary>
+		/// Visits part provider's website.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void GoUrlButton_Click ( object sender, EventArgs e )
+		{
+			string value = ( ( KeyValuePair<Link_t, string> )UrlComboBox.SelectedItem ).Key.Url;
+			System.Diagnostics.Process.Start ( value );
+		}
+
+		/// <summary>
+		/// Opens URL creating form.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void AddUrlButton_Click ( object sender, EventArgs e )
+		{
+			UrlEdit urlForm = new UrlEdit ( PartNumberLabel.Text );
+			urlForm.ShowDialog ();
+
+			// Refresh changes.
+			UrlData_Update ();
+		}
+
+		/// <summary>
+		/// Opens URL editing form.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event argument</param>
+		private void EditUrlButton_Click ( object sender, EventArgs e )
+		{
+			// Extract URL object from selected combobox item.
+			Link_t url = ( ( KeyValuePair<Link_t, string> )UrlComboBox.SelectedItem ).Key;
+
+			// Open the form.
+			UrlEdit urlForm = new UrlEdit ( PartNumberLabel.Text, url );
+			urlForm.ShowDialog ();
+
+			// Refresh changes.
+			UrlData_Update ();
+		}
+
+		/// <summary>
+		/// Deletes URL from database.
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event arguments</param>
+		private void DeleteUrlButton_Click ( object sender, EventArgs e )
+		{
+			// Extract URL object from selected combobox item.
+			Link_t url = ( ( KeyValuePair<Link_t, string> )UrlComboBox.SelectedItem ).Key;
+
+			// Connect to the database.
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
+			);
+
+			Table<Link_t> links = context.GetTable<Link_t> ();
+
+			var linksSet = from link in context.GetTable<Link_t> ()
+							where link.ID == url.ID
+							select link;
+
+			foreach ( var link in linksSet )
+			{
+				links.DeleteOnSubmit ( link );
+			}
+
+			// Save data.
+			context.SubmitChanges ();
+
+			// Refresh changes.
+			UrlData_Update ();
+		}
+
+		/// <summary>
+		/// Updates URL data in details view.
+		/// </summary>
+		private void UrlData_Update ()
+		{
+			var context = new DataContext (
+				new SQLiteConnection (
+					@"Data Source=" + Properties.Settings.Default.DatabasePath
+				)
+			);
 
 			var urls = from url in context.GetTable<Link_t> ()
 					   where url.PartID == PartNumberLabel.Text
@@ -100,11 +278,11 @@ namespace PartsManager.Source_Files
 
 			if ( urls.Any ( x => x.PartID == PartNumberLabel.Text ) )
 			{
-				Dictionary<string, string> comboboxSource = new Dictionary<string, string> ();
+				Dictionary<Link_t, string> comboboxSource = new Dictionary<Link_t, string> ();
 
 				foreach ( var url in urls )
 				{
-					comboboxSource.Add ( url.Url, url.Provider + " (" + url.Mpart + ")" );
+					comboboxSource.Add ( url, url.Provider + " (" + url.Mpart + ")" );
 				}
 
 				UrlComboBox.DataSource = new BindingSource ( comboboxSource, null );
@@ -121,35 +299,24 @@ namespace PartsManager.Source_Files
 				EditUrlButton.Enabled = false;
 				DeleteUrlButton.Enabled = false;
 			}
-
-		}
-		
-		/// <summary>
-		/// Closes the app.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">Event arguments.</param>
-		private void exitToolStripMenuItem_Click ( object sender, EventArgs e )
-		{
-			Application.Exit ();
 		}
 
 		/// <summary>
 		/// Scans Library directory and parses files to extract parts.
 		/// </summary>
-		/// <returns>List of founded parts.</returns>
+		/// <returns>List of founded parts</returns>
 		private List<Part_t> librariesParse ()
 		{
 			List<Part_t> parts = new List<Part_t> ();
 			ReadStates state = ReadStates.Name;
 			Part_t part = new Part_t ( "ID", "VAL", "PACKAGE", 0, "MODULE" );
-			
+
 			var context = new DataContext (
 				new SQLiteConnection (
 					@"Data Source=" + Properties.Settings.Default.DatabasePath
 				)
 			);
-						
+
 			try
 			{
 				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.LibraryPath, "*.lib", SearchOption.AllDirectories )
@@ -216,113 +383,41 @@ namespace PartsManager.Source_Files
 			{
 				Console.WriteLine ( PathEx.Message );
 			}
-			
+
 			return parts;
 		}
 
 		/// <summary>
 		/// Finds part's datasheet and returns path to it.
 		/// </summary>
-		/// <param name="PartID">ID of the part.</param>
-		/// <returns>Path to the datasheet.</returns>
+		/// <param name="PartID">ID of the part</param>
+		/// <returns>Path to the datasheet</returns>
 		private string datasheetDirectory ( string PartID )
 		{
 			try
 			{
 				var files = from file in Directory.EnumerateFiles ( @Properties.Settings.Default.DatasheetPath, "*.pdf", SearchOption.AllDirectories )
-							where file.Contains( PartID )
+							where file.Contains ( PartID )
 							select new
 							{
 								File = file
 							};
 
-				foreach (var f in files)
+				foreach ( var f in files )
 				{
 					return f.File;
 				}
 			}
-			catch (UnauthorizedAccessException UAEx)
+			catch ( UnauthorizedAccessException UAEx )
 			{
-				Console.WriteLine(UAEx.Message);
+				Console.WriteLine ( UAEx.Message );
 			}
-			catch (PathTooLongException PathEx)
+			catch ( PathTooLongException PathEx )
 			{
-				Console.WriteLine(PathEx.Message);
+				Console.WriteLine ( PathEx.Message );
 			}
 			return string.Empty;
 		}
 
-		/// <summary>
-		/// Opens datasheet PDF.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">Event arguments.</param>
-		private void DatasheetLink_LinkClicked ( object sender, LinkLabelLinkClickedEventArgs e )
-		{
-			if ( e.Link.LinkData != null )
-			{
-				System.Diagnostics.Process.Start ( @e.Link.LinkData.ToString () );
-			}
-		}
-
-		/// <summary>
-		/// Saves data in database.
-		/// </summary>
-		/// <param name="sender">Sender</param>
-		/// <param name="e">Event arguments</param>
-		private void SaveButton_Click ( object sender, EventArgs e )
-		{
-			var context = new DataContext (
-				new SQLiteConnection (
-					@"Data Source=" + Properties.Settings.Default.DatabasePath
-				)
-			);
-
-			Table<Components> components = context.GetTable<Components> ();
-
-			// Check whether part is already in database or not.
-			// If part exist then update data, otherwise insert new entity.
-			if ( components.Any ( x => x.ID == PartNumberLabel.Text ) )
-			{
-				var parts = from part in context.GetTable<Components> ()
-							where part.ID == PartNumberLabel.Text
-							select part;
-
-				foreach ( var part in parts )
-				{
-					part.Stock = Convert.ToInt64 ( StockTextBox.Text );
-					part.Description = DescriptionTextBox.Text;
-				}
-			}
-			else
-			{
-				Components part = new Components
-				{
-					ID = PartNumberLabel.Text,
-					Stock = Convert.ToInt64 ( StockTextBox.Text ),
-					Description = DescriptionTextBox.Text
-				};
-				components.InsertOnSubmit ( part );
-			}
-
-			// Save changes in database.
-			context.SubmitChanges ();
-
-			// Update the dataGridView.
-			partsDataGridView.Rows[ partsDataGridView.CurrentCell.RowIndex ].Cells[ 3 ].Value = StockTextBox.Text;
-			
-		}
-
-		private void GoUrlButton_Click ( object sender, EventArgs e )
-		{
-			string value = ( ( KeyValuePair<string, string> )UrlComboBox.SelectedItem ).Key;
-			System.Diagnostics.Process.Start ( value );
-		}
-
-		private void AddUrlButton_Click ( object sender, EventArgs e )
-		{
-			UrlEdit urlForm = new UrlEdit ( PartNumberLabel.Text );
-			urlForm.ShowDialog ();
-		}
 	}
 }

@@ -11,7 +11,7 @@ using System.Data.Linq.Mapping;
 namespace PartsManager.Source_Files
 {
 	[Table ( Name = "LINKS" )]
-	class Link_t
+	public class Link_t
 	{
 		[Column ( Name = "ID", IsPrimaryKey = true )]
 		public int? ID { get; set; }
