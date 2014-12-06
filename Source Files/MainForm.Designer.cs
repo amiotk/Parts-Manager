@@ -59,6 +59,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.loadBOMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.partsDataGridView)).BeginInit();
 			this.DetailsGroupBox.SuspendLayout();
@@ -102,16 +104,17 @@
 			// libraryToolStripMenuItem
 			// 
 			this.libraryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reloadToolStripMenuItem});
+            this.reloadToolStripMenuItem,
+            this.loadBOMToolStripMenuItem});
 			this.libraryToolStripMenuItem.Name = "libraryToolStripMenuItem";
-			this.libraryToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-			this.libraryToolStripMenuItem.Text = "Library";
+			this.libraryToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+			this.libraryToolStripMenuItem.Text = "Parts";
 			// 
 			// reloadToolStripMenuItem
 			// 
 			this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-			this.reloadToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-			this.reloadToolStripMenuItem.Text = "Reload";
+			this.reloadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.reloadToolStripMenuItem.Text = "Reload Library";
 			this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
@@ -125,7 +128,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			// 
 			// partsDataGridView
@@ -374,6 +377,14 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name";
 			// 
+			// loadBOMToolStripMenuItem
+			// 
+			this.loadBOMToolStripMenuItem.Enabled = false;
+			this.loadBOMToolStripMenuItem.Name = "loadBOMToolStripMenuItem";
+			this.loadBOMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadBOMToolStripMenuItem.Text = "Load BOM";
+			this.loadBOMToolStripMenuItem.Click += new System.EventHandler(this.loadBOMToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -428,5 +439,7 @@
 		private System.Windows.Forms.Button DeleteUrlButton;
 		private System.Windows.Forms.Button EditUrlButton;
 		private System.Windows.Forms.Button AddUrlButton;
+		private System.Windows.Forms.ToolStripMenuItem loadBOMToolStripMenuItem;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }

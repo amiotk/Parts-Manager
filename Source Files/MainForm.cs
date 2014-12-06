@@ -70,6 +70,7 @@ namespace PartsManager.Source_Files
 
 			// Enable details view. 
 			DetailsGroupBox.Enabled = true;
+			loadBOMToolStripMenuItem.Enabled = true;
 		}
 
 		/// <summary>
@@ -417,6 +418,56 @@ namespace PartsManager.Source_Files
 				Console.WriteLine ( PathEx.Message );
 			}
 			return string.Empty;
+		}
+
+		private void loadBOMToolStripMenuItem_Click ( object sender, EventArgs e )
+		{
+			openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+			openFileDialog.ShowDialog ();
+
+			if ( openFileDialog.FileName != String.Empty )
+			{
+				DataGridViewTextBoxColumn bom = new DataGridViewTextBoxColumn ()
+				{
+					Name = Path.GetFileName ( openFileDialog.FileName ),
+					Width = 100
+				};
+
+				partsDataGridView.Columns.Add ( bom );
+				partsDataGridView.Columns[ 2 ].Width = ( partsDataGridView.Width / 10 ) * 2;
+				partsDataGridView.Columns[ 5 ].Width = ( partsDataGridView.Width / 10 ) * 1;
+
+				try
+				{
+					var lines = from line in File.ReadAllLines ( @openFileDialog.FileName )
+								select line;
+
+					foreach ( var line in lines )
+					{
+						string[] items = line.Split ( ';' );
+
+						if ( items.Count () > 4 )
+						{
+							foreach ( DataGridViewRow row in partsDataGridView.Rows )
+							{
+								if ( row.Cells[ 0 ].Value.Equals ( items[ 4 ] ) )
+								{
+									row.Cells[ 5 ].Value = items[ 1 ];
+									break;
+								}
+							}
+						}
+					}
+				}
+				catch ( UnauthorizedAccessException UAEx )
+				{
+					Console.WriteLine ( UAEx.Message );
+				}
+				catch ( PathTooLongException PathEx )
+				{
+					Console.WriteLine ( PathEx.Message );
+				}
+			}
 		}
 
 	}

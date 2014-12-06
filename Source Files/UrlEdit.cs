@@ -41,7 +41,6 @@ namespace PartsManager.Source_Files
 			InitializeComponent ();
 			
 			this.MPartTextBox.Text = Link.Mpart;
-			this.MPartTextBox.Enabled = false;
 			this.ProviderTextBox.Text = Link.Provider;
 			this.UrlTextBox.Text = Link.Url;
 
@@ -88,6 +87,7 @@ namespace PartsManager.Source_Files
 				{
 					link.Provider = ProviderTextBox.Text;
 					link.Url = UrlTextBox.Text;
+					link.Mpart = MPartTextBox.Text;
 				}
 			}
 			else
